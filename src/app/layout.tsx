@@ -3,8 +3,11 @@ import './globals.css'
 import { inter } from '@/config/fonts'
 
 export const metadata: Metadata = {
-  title: 'Teslo | Shop',
-  description: 'This is cool',
+  title: {
+    template: '%s - Teslo | Shop',
+    default: 'Teslo | Shop'
+  },
+  description: 'This is a cool store',
 }
 
 export default function RootLayout({
