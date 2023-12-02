@@ -25,7 +25,7 @@ export default async function Home({searchParams}:Props) {
     <>
       <Title title="Tienda" subtitle='Todos los productos' className='mb-2' />
 
-      <Pagination totalPages={totalPages} />
+      {/* <Pagination totalPages={totalPages} /> */}
 
       <ProductGrid products={products} />
 

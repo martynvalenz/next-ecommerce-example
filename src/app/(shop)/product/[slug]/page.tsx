@@ -1,7 +1,5 @@
 export const revalidate = 604800; // 7 days = (60 * 60 * 24 * 7)
 import { getProductBySlug } from "@/actions/products/get-product-by-slug";
-import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
-import { SizeSelector } from "@/components/product/size-selector/SizeSelector";
 import { MobileSlideshow } from "@/components/product/slideshow/MobileSlideshow";
 import { Slideshow } from "@/components/product/slideshow/Slideshow";
 import { StockLabel } from "@/components/product/stock-label/StockLabel";
@@ -9,6 +7,7 @@ import { titleFont } from "@/config/fonts";
 import { ResolvingMetadata, type Metadata } from "next";
 // import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
+import { AddToCart } from "./ui/AddToCart";
 
 interface Props {
   params:{
@@ -65,14 +64,7 @@ export default async function ProductPage({params}:Props) {
         <StockLabel slug={product.slug} />
         <p className="text-lg mb-5">$ {product.price}</p>
 
-        {/* Selector de tallas */}
-        <SizeSelector selectedSize={product.sizes[0]} availableSizes={product.sizes} />
-
-        {/* Selector de cantidad */}
-        <QuantitySelector quantity={1} />
-
-        {/* Botón de agregar al carrito */}
-        <button className="btn-primary my-5">Agregar al carrito</button>
+        <AddToCart product={product} />
 
         {/* Descripción */}
         <h3 className="font-bold text-sm">Descripción</h3>
