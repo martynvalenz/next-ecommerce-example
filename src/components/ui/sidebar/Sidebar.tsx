@@ -1,12 +1,17 @@
 'use client';
+import { logout } from '@/actions/auth/logout.actions';
 import { useUiStore } from '@/store/ui/ui.store';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from 'react-icons/io5'
 
 export const Sidebar = () => {
   const isSideMenuOpen= useUiStore(state => state.isSideMenuOpen);
   const closeMenu = useUiStore(state => state.closeSideMenu);
+
+  const {data:session} = useSession();
+  const isAuthenticated = !!session?.user;
 
   return (
     <div>
@@ -33,35 +38,52 @@ export const Sidebar = () => {
           <input type="text" placeholder='Buscar' className='w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500' />
         </div>
 
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoPersonOutline size={30} />
-          <span className='ml-3 text-3xl'>Perfil</span>
-        </Link>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoTicketOutline size={30} />
-          <span className='ml-3 text-3xl'>Mis Órdenes</span>
-        </Link>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoLogInOutline size={30} />
-          <span className='ml-3 text-3xl'>Ingresar</span>
-        </Link>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoLogOutOutline size={30} />
-          <span className='ml-3 text-3xl'>Salir</span>
-        </Link>
-        <div className='w-full h-px bg-gray-200 my-10'></div>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoShirtOutline size={30} />
-          <span className='ml-3 text-3xl'>Productos</span>
-        </Link>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoTicketOutline size={30} />
-          <span className='ml-3 text-3xl'>Órdenes</span>
-        </Link>
-        <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
-          <IoPeopleOutline size={30} />
-          <span className='ml-3 text-3xl'>Clientes</span>
-        </Link>
+        {
+          isAuthenticated && (
+            <>
+              <Link href="/profile" onClick={() => closeMenu()} className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoPersonOutline size={30} />
+                <span className='ml-3 text-xl'>Perfil</span>
+              </Link>
+              <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoTicketOutline size={30} />
+                <span className='ml-3 text-xl'>Mis Órdenes</span>
+              </Link>
+            </>
+          )
+        }
+        {
+          isAuthenticated ? (
+            <button onClick={() => logout()} className='flex w-full items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+              <IoLogOutOutline size={30} />
+              <span className='ml-3 text-xl'>Salir</span>
+            </button>
+          ):(
+            <Link href="/auth/login" onClick={() => closeMenu()}  className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+              <IoLogInOutline size={30} />
+              <span className='ml-3 text-xl'>Ingresar</span>
+            </Link>
+          )
+        }
+        {
+          isAuthenticated && session?.user.role === 'admin' && (
+            <>
+              <div className='w-full h-px bg-gray-200 my-10'></div>
+              <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoShirtOutline size={30} />
+                <span className='ml-3 text-xl'>Productos</span>
+              </Link>
+              <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoTicketOutline size={30} />
+                <span className='ml-3 text-xl'>Órdenes</span>
+              </Link>
+              <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoPeopleOutline size={30} />
+                <span className='ml-3 text-xl'>Clientes</span>
+              </Link>
+            </>
+          )
+        }
       </nav>
     </div>
   )

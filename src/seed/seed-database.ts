@@ -6,27 +6,35 @@ async function main(){
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.user.deleteMany();
 
-  //* 2. Create categories
+  //* 2 Create tables with initData
+
+  const {categories,products, users} = initialData;
+  //* Create Users
+  await prisma.user.createMany({
+    data: users,
+  });
+
+  //* Create categories
   // await prisma.category.create({
   //   data: {
   //     name:'Shirts',
   //   },
   // });
-  const {categories,products} = initialData;
   const categoriesData = categories.map((name) => ({name}));
   await prisma.category.createMany({
     data: categoriesData,
   });
 
-  //* 3. Get created categories
+  //* Get created categories
   const categoriesDB = await prisma.category.findMany();
   const categoriesMap = categoriesDB.reduce((map, category) => {
     map[category.name.toLowerCase()] = category.id;
     return map;
   }, {} as Record<string,string>) //! <string = shirt, categoryId>
 
-  //* 4. Create products
+  //* Create products
   products.forEach(async(product) => {
     const {type, images, ...rest} = product;
     const dbProduct = await prisma.product.create({

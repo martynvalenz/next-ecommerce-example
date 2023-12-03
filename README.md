@@ -7,13 +7,18 @@
 ```
 docker compose up -d
 ```
-* Run prisma migrations
+Run prisma migrations
 ```
 npx prisma migrate dev --name <name>
 ```
-* Execute seed
+Execute seed
 ```
 npm run seed
+```
+## Run the app
+Create a random AUTH_SECRET in the terminal and update de `.env` file
+```
+openssl rand -base64 32
 ```
 - Run `npm run dev`
 
