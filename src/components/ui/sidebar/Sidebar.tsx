@@ -45,7 +45,7 @@ export const Sidebar = () => {
                 <IoPersonOutline size={30} />
                 <span className='ml-3 text-xl'>Perfil</span>
               </Link>
-              <Link href="/" className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
+              <Link href="/orders" onClick={() => closeMenu()} className='flex items-ceter mt-10 p-2 hover:bg-gray-100 rounded transition-all'>
                 <IoTicketOutline size={30} />
                 <span className='ml-3 text-xl'>Mis Órdenes</span>
               </Link>

@@ -15,6 +15,8 @@ Execute seed
 ```
 npm run seed
 ```
+Clean localStorage and cookies to clear unexsitent ID's
+
 ## Run the app
 Create a random AUTH_SECRET in the terminal and update de `.env` file
 ```
