@@ -13,7 +13,6 @@ export default async function OrdersPage() {
     redirect('/auth/login');
   }
 
-  console.log(orders);
 
   return (
     <>
